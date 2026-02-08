@@ -17,14 +17,8 @@ final class ReposRepository {
     }
 
     func fetchUserRepos(page: Int, perPage: Int = 10) async throws -> [Repo] {
-        var components = URLComponents(string: "https://api.github.com/user/repos")!
-        components.queryItems = [
-            URLQueryItem(name: "per_page", value: String(perPage)),
-            URLQueryItem(name: "page", value: String(page))
-        ]
-
         let request = try network.makeRequest(
-            url: components.url!,
+            endpoint: .userRepos(page: page, perPage: perPage),
             method: .get,
             body: .none
         )

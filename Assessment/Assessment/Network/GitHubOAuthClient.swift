@@ -18,7 +18,7 @@ struct GitHubOAuthClient {
 
     func requestDeviceCode() async throws -> DeviceCodeResponse {
         let request = try network.makeRequest(
-            url: URL(string: "https://github.com/login/device/code")!,
+            endpoint: .deviceCode,
             method: .post,
             body: .formURLEncoded([
                 URLQueryItem(name: "client_id", value: clientId),
@@ -37,7 +37,7 @@ struct GitHubOAuthClient {
 
     func pollForAccessToken(deviceCode: String) async throws -> TokenResponse {
         let request = try network.makeRequest(
-            url: URL(string: "https://github.com/login/oauth/access_token")!,
+            endpoint: .accessToken,
             method: .post,
             body: .formURLEncoded([
                 URLQueryItem(name: "client_id", value: clientId),

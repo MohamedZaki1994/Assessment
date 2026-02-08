@@ -5,7 +5,11 @@
 
 import Foundation
 
-struct LoadExistingTokenUseCase {
+protocol LoadExistingTokenUseCaseProtocol {
+    func execute() -> String?
+}
+
+struct LoadExistingTokenUseCase: LoadExistingTokenUseCaseProtocol {
     private let repository: AuthRepository
 
     init(repository: AuthRepository = GitHubAuthRepository()) {

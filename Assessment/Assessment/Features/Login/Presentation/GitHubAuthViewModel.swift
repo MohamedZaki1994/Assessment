@@ -17,16 +17,21 @@ final class GitHubAuthViewModel: ObservableObject {
 	@Published var verificationURL: URL?
 	@Published var verificationURLComplete: URL?
 
-	private let loadExistingTokenUseCase: LoadExistingTokenUseCase
-	private let requestDeviceCodeUseCase: RequestDeviceCodeUseCase
-	private let pollForAccessTokenUseCase: PollForAccessTokenUseCase
-	private let logoutUseCase: LogoutUseCase
+	private let loadExistingTokenUseCase: LoadExistingTokenUseCaseProtocol
+	private let requestDeviceCodeUseCase: RequestDeviceCodeUseCaseProtocol
+	private let pollForAccessTokenUseCase: PollForAccessTokenUseCaseProtocol
+	private let logoutUseCase: LogoutUseCaseProtocol
 
-	init() {
-		self.loadExistingTokenUseCase = LoadExistingTokenUseCase()
-		self.requestDeviceCodeUseCase = RequestDeviceCodeUseCase()
-		self.pollForAccessTokenUseCase = PollForAccessTokenUseCase()
-		self.logoutUseCase = LogoutUseCase()
+	init(
+        loadExistingTokenUseCase: LoadExistingTokenUseCaseProtocol = LoadExistingTokenUseCase(),
+        requestDeviceCodeUseCase: RequestDeviceCodeUseCaseProtocol = RequestDeviceCodeUseCase(),
+        pollForAccessTokenUseCase: PollForAccessTokenUseCaseProtocol = PollForAccessTokenUseCase(),
+        logoutUseCase: LogoutUseCaseProtocol = LogoutUseCase()
+    ) {
+		self.loadExistingTokenUseCase = loadExistingTokenUseCase
+		self.requestDeviceCodeUseCase = requestDeviceCodeUseCase
+		self.pollForAccessTokenUseCase = pollForAccessTokenUseCase
+		self.logoutUseCase = logoutUseCase
 		self.accessToken = loadExistingTokenUseCase.execute()
 	}
 

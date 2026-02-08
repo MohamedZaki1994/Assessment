@@ -14,22 +14,16 @@ final class ReposHomeViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
-    private let logoutUseCase: LogoutUseCase
+    private let logoutUseCase: LogoutUseCaseProtocol
     private let fetchMyReposUseCase: FetchMyReposUseCase
 
     private var currentPage: Int = 1
     private var canLoadMore: Bool = true
 
-    init(logoutUseCase: LogoutUseCase, fetchMyReposUseCase: FetchMyReposUseCase) {
+    init(logoutUseCase: LogoutUseCaseProtocol = LogoutUseCase(),
+		 fetchMyReposUseCase: FetchMyReposUseCase = FetchMyReposUseCase()) {
         self.logoutUseCase = logoutUseCase
         self.fetchMyReposUseCase = fetchMyReposUseCase
-    }
-
-    convenience init() {
-        self.init(
-            logoutUseCase: LogoutUseCase(),
-            fetchMyReposUseCase: FetchMyReposUseCase()
-        )
     }
 
     func loadFirstPage() async {

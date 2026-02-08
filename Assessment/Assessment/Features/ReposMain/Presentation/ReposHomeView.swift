@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ReposHomeView: View {
-    @ObservedObject var viewModel: ReposHomeViewModel
+    @StateObject var viewModel: ReposHomeViewModel = ReposHomeViewModel()
     @EnvironmentObject private var session: AuthSession
+    @EnvironmentObject private var coordinator: AppCoordinator
 
     var body: some View {
         VStack(spacing: 16) {
@@ -28,8 +29,8 @@ struct ReposHomeView: View {
             }
 
             if viewModel.repos.isEmpty && viewModel.isLoading {
-                // Initial load: show a full-screen spinner
                 ProgressView()
+				Spacer()
             } else if let error = viewModel.errorMessage {
                 Text(error)
                     .foregroundColor(.red)
@@ -40,13 +41,34 @@ struct ReposHomeView: View {
                 List {
                     ForEach(viewModel.repos) { repo in
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(repo.name)
-                                .font(.headline)
+                            HStack {
+                                Text(repo.name)
+                                    .font(.headline)
+                                Spacer()
+								Text((repo.isPrivate ?? false) ? "Private": "Public")
+                            }
+
                             if let fullName = repo.fullName {
                                 Text(fullName)
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
                             }
+
+                            HStack {
+								if let stargazersCount = repo.stargazersCount {
+									Image(systemName: "star.fill")
+									Text("\(stargazersCount)")
+								}
+                                Spacer()
+								if let updatedAt = repo.updatedAt {
+									Text("Updated \(updatedAt)")
+								}
+                            }
+                            .padding(.top, 4)
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            coordinator.append(.repoDetails)
                         }
                         .onAppear {
                             if repo.id == viewModel.repos.last?.id {

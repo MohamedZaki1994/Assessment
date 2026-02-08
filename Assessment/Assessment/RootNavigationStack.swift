@@ -8,24 +8,18 @@
 import SwiftUI
 
 struct RootNavigationStack: View {
-    @ObservedObject var coordinator: AppCoordinator
+	@EnvironmentObject private var coordinator: AppCoordinator
     let isAuthenticated: Bool
 
-    private let reposHomeViewModel: ReposHomeViewModel
-
-    init(coordinator: AppCoordinator, isAuthenticated: Bool) {
-        self.coordinator = coordinator
+    init(isAuthenticated: Bool) {
         self.isAuthenticated = isAuthenticated
-        let fetchMyReposUseCase = FetchMyReposUseCase()
-        let logoutUseCase = LogoutUseCase()
-        self.reposHomeViewModel = ReposHomeViewModel()
     }
 
     var body: some View {
         NavigationStack(path: $coordinator.path) {
             Group {
                 if isAuthenticated {
-                    ReposHomeView(viewModel: reposHomeViewModel)
+                    ReposHomeView()
                 } else {
                     GitHubAuthView()
                 }
@@ -40,7 +34,7 @@ struct RootNavigationStack: View {
     private func view(for destination: Destination) -> some View {
         switch destination {
         case .reposHome:
-            ReposHomeView(viewModel: reposHomeViewModel)
+            ReposHomeView()
         case .repoDetails:
             RepoDetailsView()
         }
@@ -48,6 +42,6 @@ struct RootNavigationStack: View {
 }
 
 #Preview {
-    RootNavigationStack(coordinator: AppCoordinator(), isAuthenticated: false)
+    RootNavigationStack(isAuthenticated: false)
         .environmentObject(AuthSession())
 }

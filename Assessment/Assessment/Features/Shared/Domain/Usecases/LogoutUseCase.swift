@@ -5,7 +5,11 @@
 
 import Foundation
 
-struct LogoutUseCase {
+protocol LogoutUseCaseProtocol {
+    func execute()
+}
+
+struct LogoutUseCase: LogoutUseCaseProtocol {
     private let repository: AuthRepository
 
     init(repository: AuthRepository = GitHubAuthRepository()) {

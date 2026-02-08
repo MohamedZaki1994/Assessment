@@ -21,12 +21,12 @@ struct NetworkClient {
     }
 
     func makeRequest(
-        url: URL,
+        endpoint: Endpoint,
         method: HTTPMethod,
         body: HTTPBody = .none,
         headers: [String: String] = [:]
     ) throws -> URLRequest {
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: endpoint.url)
         request.httpMethod = method.rawValue
 
         let bodyBuilt = try body.build()

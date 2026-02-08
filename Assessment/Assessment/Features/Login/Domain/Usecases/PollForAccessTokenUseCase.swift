@@ -5,7 +5,11 @@
 
 import Foundation
 
-struct PollForAccessTokenUseCase {
+protocol PollForAccessTokenUseCaseProtocol {
+    func execute(deviceCode: String, interval: Int, expiresIn: Int) async throws -> String
+}
+
+struct PollForAccessTokenUseCase: PollForAccessTokenUseCaseProtocol {
     private let repository: AuthRepository
 
     init(repository: AuthRepository = GitHubAuthRepository()) {

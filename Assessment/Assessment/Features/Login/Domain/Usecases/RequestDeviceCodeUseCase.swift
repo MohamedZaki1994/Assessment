@@ -5,7 +5,11 @@
 
 import Foundation
 
-struct RequestDeviceCodeUseCase {
+protocol RequestDeviceCodeUseCaseProtocol {
+    func execute() async throws -> DeviceCodeResponse
+}
+
+struct RequestDeviceCodeUseCase: RequestDeviceCodeUseCaseProtocol {
     private let repository: AuthRepository
 
     init(repository: AuthRepository = GitHubAuthRepository()) {

@@ -10,10 +10,12 @@ import SwiftUI
 @main
 struct AssessmentApp: App {
     @StateObject private var session = AuthSession()
+    @StateObject private var coordinator = AppCoordinator()
 
     var body: some Scene {
         WindowGroup {
             ContentView(session: session)
+                .environmentObject(coordinator)
         }
     }
 }

@@ -2,7 +2,6 @@
 //  GitHubLoginUseCase.swift
 //  Assessment
 //
-//  Orchestrates GitHub login using the AuthRepository.
 //
 
 import Foundation

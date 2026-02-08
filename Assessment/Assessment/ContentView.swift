@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var coordinator = AppCoordinator()
     @StateObject private var session: AuthSession
     @StateObject private var viewModel: ContentViewModel
 
@@ -18,7 +17,7 @@ struct ContentView: View {
     }
 
     var body: some View {
-        RootNavigationStack(coordinator: coordinator, isAuthenticated: viewModel.isAuthenticated)
+        RootNavigationStack(isAuthenticated: viewModel.isAuthenticated)
             .environmentObject(session)
             .task {
                 await Task { viewModel.refreshAuthState() }.value
