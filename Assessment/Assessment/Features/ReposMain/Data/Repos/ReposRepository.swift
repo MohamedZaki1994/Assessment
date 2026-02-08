@@ -5,7 +5,7 @@
 
 import Foundation
 
-final class ReposRepository {
+final class ReposRepository: ReposRepositoryProtocol {
     private let network: NetworkClient
 
     init(

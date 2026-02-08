@@ -10,7 +10,7 @@ import SwiftUI
 struct ReposHomeView: View {
     @StateObject var viewModel: ReposHomeViewModel = ReposHomeViewModel()
     @EnvironmentObject private var session: AuthSession
-    @EnvironmentObject private var coordinator: AppCoordinator
+    @EnvironmentObject private var coordinator: Coordinator
 
     var body: some View {
         VStack(spacing: 16) {

@@ -1,5 +1,5 @@
 //
-//  AppCoordinator.swift
+//  Coordinator.swift
 //  Assessment
 //
 
@@ -11,7 +11,7 @@ enum Destination: Hashable {
 	case repoDetails
 }
 
-final class AppCoordinator: ObservableObject {
+final class Coordinator: ObservableObject {
     @Published var path = NavigationPath()
 
     func append(_ destination: Destination) {

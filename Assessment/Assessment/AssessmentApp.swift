@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct AssessmentApp: App {
     @StateObject private var session = AuthSession()
-    @StateObject private var coordinator = AppCoordinator()
+    @StateObject private var coordinator = Coordinator()
 
     var body: some Scene {
         WindowGroup {

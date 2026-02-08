@@ -6,14 +6,10 @@
 import Foundation
 
 struct FetchMyReposUseCase {
-    private let repository: ReposRepository
+    private let repository: ReposRepositoryProtocol
 
-    init(repository: ReposRepository) {
+    init(repository: ReposRepositoryProtocol = ReposRepository()) {
         self.repository = repository
-    }
-
-    init() {
-        self.repository = ReposRepository()
     }
 
     func execute(page: Int, perPage: Int = 10) async throws -> [Repo] {

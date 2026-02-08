@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RootNavigationStack: View {
-	@EnvironmentObject private var coordinator: AppCoordinator
+	@EnvironmentObject private var coordinator: Coordinator
     let isAuthenticated: Bool
 
     init(isAuthenticated: Bool) {

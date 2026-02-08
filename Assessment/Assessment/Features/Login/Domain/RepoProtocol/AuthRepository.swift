@@ -2,7 +2,7 @@
 //  AuthRepository.swift
 //  Assessment
 //
-//  Defines the abstraction for authentication-related data operations.
+//  Created by Mohamed Zaki on 08/02/2026.
 //
 
 import Foundation
