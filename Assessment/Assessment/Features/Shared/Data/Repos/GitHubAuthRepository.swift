@@ -2,22 +2,19 @@
 //  GitHubAuthRepository.swift
 //  Assessment
 //
-//  Concrete implementation of AuthRepository using GitHubOAuthClient and KeychainStore.
-//
+
 
 import Foundation
 
 final class GitHubAuthRepository: AuthRepository {
     private let oauthClient: GitHubOAuthClient
-    private let keychainService = "Assessment"
-    private let keychainAccount = "github_access_token"
 
     init(oauthClient: GitHubOAuthClient = GitHubOAuthClient()) {
         self.oauthClient = oauthClient
     }
 
     func currentAccessToken() -> String? {
-        try? KeychainStore.read(service: keychainService, account: keychainAccount)
+		try? KeychainStore.read(service: Constants.keychainService, account: Constants.keychainAccount)
     }
 
     func requestDeviceCode() async throws -> DeviceCodeResponse {
@@ -35,7 +32,7 @@ final class GitHubAuthRepository: AuthRepository {
                     throw OAuthError.invalidTokenResponse
                 }
 
-                try KeychainStore.save(accessToken, service: keychainService, account: keychainAccount)
+				try KeychainStore.save(accessToken, service: Constants.keychainService, account: Constants.keychainAccount)
                 return accessToken
             } catch let oauthError as OAuthError {
                 switch oauthError {
@@ -58,6 +55,6 @@ final class GitHubAuthRepository: AuthRepository {
     }
 
     func logout() {
-        KeychainStore.delete(service: keychainService, account: keychainAccount)
+		KeychainStore.delete(service: Constants.keychainService, account: Constants.keychainAccount)
     }
 }

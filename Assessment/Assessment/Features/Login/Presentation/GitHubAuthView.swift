@@ -9,7 +9,8 @@ import SwiftUI
 import UIKit
 
 struct GitHubAuthView: View {
-    @ObservedObject var auth: GitHubAuthViewModel
+    @StateObject private var auth = GitHubAuthViewModel()
+    @EnvironmentObject private var session: AuthSession
 
     var body: some View {
         VStack(spacing: 16) {
@@ -78,9 +79,13 @@ struct GitHubAuthView: View {
             Spacer()
         }
         .padding()
+        .onChange(of: auth.accessToken) { token in
+            session.isAuthenticated = (token != nil)
+        }
     }
 }
 
 #Preview {
-	GitHubAuthView(auth: GitHubAuthViewModel())
+	GitHubAuthView()
+		.environmentObject(AuthSession())
 }

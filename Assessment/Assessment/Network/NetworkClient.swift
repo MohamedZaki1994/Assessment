@@ -9,8 +9,16 @@
 import Foundation
 
 struct NetworkClient {
-    var session: URLSession = .shared
-    var interceptor = RequestInterceptor()
+    var session: URLSession
+    var interceptor: RequestInterceptor
+
+    init(
+        session: URLSession = .shared,
+        interceptor: RequestInterceptor = RequestInterceptor()
+    ) {
+        self.session = session
+        self.interceptor = interceptor
+    }
 
     func makeRequest(
         url: URL,

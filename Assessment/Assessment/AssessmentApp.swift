@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct AssessmentApp: App {
+    @StateObject private var session = AuthSession()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(session: session)
         }
     }
 }

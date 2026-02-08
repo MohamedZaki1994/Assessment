@@ -1,6 +1,11 @@
 import Foundation
 import Security
 
+struct Constants {
+	static let keychainService = "Assessment"
+	static let keychainAccount = "github_access_token"
+}
+
 enum KeychainStore {
     static func save(_ value: String, service: String, account: String) throws {
         let data = Data(value.utf8)

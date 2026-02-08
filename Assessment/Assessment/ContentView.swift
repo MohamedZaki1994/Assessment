@@ -8,29 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var auth = GitHubAuthViewModel()
+    @StateObject private var coordinator = AppCoordinator()
+    @StateObject private var session: AuthSession
+    @StateObject private var viewModel: ContentViewModel
+
+    init(session: AuthSession) {
+        _session = StateObject(wrappedValue: session)
+        _viewModel = StateObject(wrappedValue: ContentViewModel(session: session))
+    }
 
     var body: some View {
-        Group {
-            if auth.accessToken == nil {
-				GitHubAuthView(auth: auth)
-            } else {
-                VStack(spacing: 12) {
-                    Text("Logged in")
-                        .font(.title)
-                        .fontWeight(.semibold)
-
-                    Button("Logout") {
-                        auth.logout()
-                    }
-                    .buttonStyle(.bordered)
-                }
-                .padding()
+        RootNavigationStack(coordinator: coordinator, isAuthenticated: viewModel.isAuthenticated)
+            .environmentObject(session)
+            .task {
+                await Task { viewModel.refreshAuthState() }.value
             }
-        }
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(session: AuthSession())
 }

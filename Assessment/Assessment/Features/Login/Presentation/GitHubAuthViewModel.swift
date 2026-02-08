@@ -17,12 +17,18 @@ final class GitHubAuthViewModel: ObservableObject {
 	@Published var verificationURL: URL?
 	@Published var verificationURLComplete: URL?
 
-    private let loginUseCase: GitHubLoginUseCase
+	private let loadExistingTokenUseCase: LoadExistingTokenUseCase
+	private let requestDeviceCodeUseCase: RequestDeviceCodeUseCase
+	private let pollForAccessTokenUseCase: PollForAccessTokenUseCase
+	private let logoutUseCase: LogoutUseCase
 
-    init(useCase: GitHubLoginUseCase = GitHubLoginUseCase(repository: GitHubAuthRepository())) {
-        self.loginUseCase = useCase
-        self.accessToken = useCase.loadExistingToken()
-    }
+	init() {
+		self.loadExistingTokenUseCase = LoadExistingTokenUseCase()
+		self.requestDeviceCodeUseCase = RequestDeviceCodeUseCase()
+		self.pollForAccessTokenUseCase = PollForAccessTokenUseCase()
+		self.logoutUseCase = LogoutUseCase()
+		self.accessToken = loadExistingTokenUseCase.execute()
+	}
 
     func login() async {
         errorMessage = nil
@@ -33,12 +39,12 @@ final class GitHubAuthViewModel: ObservableObject {
         defer { isLoading = false }
 
         do {
-            let device = try await loginUseCase.requestDeviceCode()
+            let device = try await requestDeviceCodeUseCase.execute()
             userCode = device.userCode
             verificationURL = URL(string: device.verificationUri)
             verificationURLComplete = device.verificationUriComplete.flatMap { URL(string: $0) }
             do {
-                let accessToken = try await loginUseCase.pollForAccessToken(
+                let accessToken = try await pollForAccessTokenUseCase.execute(
                     deviceCode: device.deviceCode,
                     interval: device.interval,
                     expiresIn: device.expiresIn
@@ -71,7 +77,7 @@ final class GitHubAuthViewModel: ObservableObject {
     }
 
     func logout() {
-        loginUseCase.logout()
+        logoutUseCase.execute()
         accessToken = nil
         userCode = nil
         verificationURL = nil
