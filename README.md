@@ -11,7 +11,7 @@ A GitHub repository viewer using the Device Flow authentication method.
 
 This project uses the **GitHub Device Flow** for authentication. This approach is chosen to avoid storing the Client Secret in the frontend application, enhancing security.
 
-### Scenario
+### Login Scenario
 
 1.  **Initiate Login**: When the user taps "Sign in with GitHub", the app sends a `POST` request to `/login/device/code`.
 2.  **Receive Code**: GitHub responds with a `user_code`, `verification_uri`, `device_code`, and `interval`.
